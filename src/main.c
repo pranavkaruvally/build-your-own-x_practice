@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #define MAX 1000
 
 typedef enum {
@@ -9,10 +10,17 @@ typedef enum {
     HLT
 }InstructionSet;
 
+typedef enum {
+    A, B, C, D, E, F,
+    NUM_OF_REGISTERS
+}Registers;
+
 int ip = 0; //The instruction pointer
 int sp = -1; //The stack pointer
+bool running = true;
 
 int stack[MAX];
+int registers[NUM_OF_REGISTERS];
 
 const int program[] = {
     PSH, 5,
@@ -49,14 +57,19 @@ void eval(int instr) {
             sp++;
             stack[sp] = result;
             break;
+
+        case SET:
+            ip++;
+            int reg = program[ip];
+            registers[reg] = program[++ip];
+            break;
     }
 }
 
 int main() {
-    bool running = true;
     while (running) {
         eval(fetch());
-        ip++
+        ip++;
     }
     return 0;
 }
