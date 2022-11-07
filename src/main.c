@@ -18,7 +18,16 @@ const int program[] = {
     HLT
 };
 
+int fetch() {
+    return program[ip];
+}
+
 int main() {
-    int instruction = program[ip];
+    bool running = true;
+    while (true) {
+        x = fetch();
+        if (x == HLT) running=false;
+        ip++
+    }
     return 0;
 }
