@@ -1,4 +1,5 @@
 #include <stdio.h>
+#define MAX 1000
 
 typedef enum {
     PSH,
@@ -9,6 +10,9 @@ typedef enum {
 }InstructionSet;
 
 int ip = 0; //The instruction pointer
+int sp = -1; //The stack pointer
+
+int stack[MAX];
 
 const int program[] = {
     PSH, 5,
@@ -26,6 +30,16 @@ void eval(int instr) {
     switch(instr) {
         case HLT:
             running = false;
+            break;
+
+        case PSH:
+            sp++;
+            stack[sp] = program[++ip];
+            break;
+
+        case POP:
+            int val_popped = stack[sp--];
+            printf("Popped %d\n", val_popped);
             break;
     }
 }
