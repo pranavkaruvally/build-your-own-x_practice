@@ -22,11 +22,18 @@ int fetch() {
     return program[ip];
 }
 
+void eval(int instr) {
+    switch(instr) {
+        case HLT:
+            running = false;
+            break;
+    }
+}
+
 int main() {
     bool running = true;
-    while (true) {
-        x = fetch();
-        if (x == HLT) running=false;
+    while (running) {
+        eval(fetch());
         ip++
     }
     return 0;
