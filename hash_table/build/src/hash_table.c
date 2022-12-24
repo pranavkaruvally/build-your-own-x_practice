@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include "hash_table.h"
 
@@ -34,4 +35,14 @@ void ht_delete_hash_table(ht_hash_table* ht) {
     }
     free(ht->items);
     free(ht);
+}
+
+static int hash(const char* s, const int a, const int num_buckets) {
+    long hash = 0;
+    const int len_s = strlen(s);
+    for (int i=0; i<len_s; i++)
+        hash += (long)pow(a, len_s - (i+1)) * s[i];
+    
+    hash = hash % num_buckets;
+    return hash;
 }
