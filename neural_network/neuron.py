@@ -1,20 +1,23 @@
 import numpy as np
 
-#def sigmoid(x):
-#    return 1/(1 + np.exp(-x))
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def deriv_sigmoid(x):
+    fx = sigmoid(x)
+    return fx * (1 - fx)
+
+def mse(y_true, y_pred):
+    return ((y_true - y_pred) ** 2).mean()
 
 class Neuron:
     def __init__(self, weights, bias):
         self.weights = weights
         self.bias = bias
-    
-    @staticmethod
-    def sigmoid(x):
-        return 1/(1 + np.exp(-x))
 
     def feedforward(self, x):
         activation_input = np.dot(x, self.weights) + self.bias
-        return self.sigmoid(activation_input)
+        return sigmoid(activation_input)
 
 
 if __name__ == "__main__":
