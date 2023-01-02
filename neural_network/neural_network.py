@@ -3,7 +3,7 @@ import neuron
 
 class OurNeuralNetwork:
     def __init__(self):
-        weights = np.array([0, 1])
+        weights = np.array([1, 1])
         bias = 0
 
         self.h1 = neuron.Neuron(weights, bias)
@@ -19,5 +19,5 @@ class OurNeuralNetwork:
 
 if __name__ == "__main__":
     network = OurNeuralNetwork()
-    x = np.array([2, 3])
-    print(network.feedforward(x))
+    x = np.array([-2, -1])
+    print(f"{network.feedforward(x): 0.3f}")
