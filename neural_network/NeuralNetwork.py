@@ -33,7 +33,7 @@ class NeuralNetwork:
 
     def train(self, data, labels):
         learning_rate = 0.1
-        epochs = 100
+        epochs = 1000
 
         for epoch in range(epochs):
             for X, y_true in zip(data, labels):
@@ -95,3 +95,23 @@ class NeuralNetwork:
                 y_preds = np.apply_along_axis(self.feedforward, 1, data)
                 loss = self.mse(labels, y_preds)
                 print(f"Epoch {epoch} loss: {loss: 0.3f}")
+
+# First column is weight and 2nd is height
+data = np.array([
+    [-2, -1],
+    [25, 6],
+    [17, 4],
+    [-15, -6]
+])
+
+#Using height and weight gender is predicted
+#0 for female and 1 for male
+labels = np.array([
+    1,
+    0,
+    0,
+    1
+])
+
+network = NeuralNetwork()
+network.train(data, labels)
