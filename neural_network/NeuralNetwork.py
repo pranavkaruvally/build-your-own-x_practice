@@ -49,27 +49,54 @@ class NeuralNetwork:
             y_pred = self.sigmoid(sum_output)
             d_L__d_ypred = -2 * (y_true - y_pred)
 
-            d_ypred__d_h1 = self.w5 * deriv_sigmoid(sum_output)
-            d_h1__d_w1 = self.w1 * deriv_sigmoid(sum_h1)
+            d_ypred__d_h1 = self.w5 * self.deriv_sigmoid(sum_output)
+            d_h1__d_w1 = self.w1 * self.deriv_sigmoid(sum_h1)
             d_L__d_w1 = d_L__d_ypred * d_ypred__d_h1 * d_h1__d_w1
   
-            d_h1__d_w2 = self.w2 * deriv_sigmoid(sum_h1)
+            d_h1__d_w2 = self.w2 * self.deriv_sigmoid(sum_h1)
             d_L__d_w2 = d_L__d_ypred * d_ypred__d_h1 * d_h1__d_w2
 
 
-            d_ypred__d_h2 = self.w6 * deriv_sigmoid(sum_output)    
-            d_h2__d_w3 = self.w3 * deriv_sigmoid(sum_h2)
+            d_ypred__d_h2 = self.w6 * self.deriv_sigmoid(sum_output)    
+            d_h2__d_w3 = self.w3 * self.deriv_sigmoid(sum_h2)
             d_L__d_w3 = d_L__d_ypred * d_ypred__d_h2 * d_h2__d_w3
 
-            d_h2__d_w4 = self.w4 * deriv_sigmoid(sum_h2)
+            d_h2__d_w4 = self.w4 * self.deriv_sigmoid(sum_h2)
             d_L__d_w4 = d_L__d_ypred * d_ypred__d_h2 * d_h2__d_w4
 
             
-            d_ypred__d_w5 = h1 * deriv_sigmoid(sum_output)
+            d_ypred__d_w5 = h1 * self.deriv_sigmoid(sum_output)
             d_L__d_w5 = d_L__d_ypred * d_ypred__d_w5
 
-            d_ypred__d_w6 = h2 * deriv_sigmoid(sum_output)
+            d_ypred__d_w6 = h2 * self.deriv_sigmoid(sum_output)
             d_L__d_w6 = d_L__d_ypred * d_ypred__d_w6
+
+
+            d_h1__d_b1 = self.deriv_sigmoid(sum_h1)
+            d_L__d_b1 = d_L__d_ypred * d_ypred__d_h1 * d_h1__d_b1
+
+            d_h2__d_b2 = self.deriv_sigmoid(sum_h2)
+            d_L__d_b2 = d_L__d_ypred * d_ypred__d_h2 * d_h2__d_b2
+
+            d_L__d_b3 = d_L__d_ypred * self.deriv_sigmoid(output)
+
+
+            self.w1 -= learning_rate * d_L__d_w1
+            self.w2 -= learning_rate * d_L__d_w2
+            self.w3 -= learning_rate * d_L__d_w3
+            self.w4 -= learning_rate * d_L__d_w4
+            self.w5 -= learning_rate * d_L__d_w5
+            self.w6 -= learning_rate * d_L__d_w6
+
+            self.b1 -= learning_rate * d_L__d_b1
+            self.b2 -= learning_rate * d_L__d_b2
+            self.b3 -= learning_rate * d_L__d_b3
+
+
+            if epoch % 10 == 0:
+                y_preds = np.apply_along_axis(self.feedforward, 1, data)
+                loss = mse_loss(label, y_preds)
+                print(f"Epoch {epoch} loss: {loss: 0.3f}")
 
 
 
