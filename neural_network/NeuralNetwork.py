@@ -33,3 +33,43 @@ class NeuralNetwork:
         self.output = self.sigmoid(self.w5 * self.h1 + self.w6 * self.h2 + self.b3)
 
         return self.output
+
+    def sgd(self, data, label):
+        learning_rate = 0.1
+        epochs = 100
+
+        for X, y_true in zip(data, label):
+            sum_h1 = self.w1 * X[0] + self.w2 * X[1] + self.b1
+            sum_h2 = self.w3 * X[0] + self.w4 * X[1] + self.b2
+
+            h1 = self.sigmoid(sum_h1)
+            h2 = self.sigmoid(sum_h2)
+
+            sum_output = self.w5 * h1 + self.w6 * h2 + self.b3
+            y_pred = self.sigmoid(sum_output)
+            d_L__d_ypred = -2 * (y_true - y_pred)
+
+            d_ypred__d_h1 = self.w5 * deriv_sigmoid(sum_output)
+            d_h1__d_w1 = self.w1 * deriv_sigmoid(sum_h1)
+            d_L__d_w1 = d_L__d_ypred * d_ypred__d_h1 * d_h1__d_w1
+  
+            d_h1__d_w2 = self.w2 * deriv_sigmoid(sum_h1)
+            d_L__d_w2 = d_L__d_ypred * d_ypred__d_h1 * d_h1__d_w2
+
+
+            d_ypred__d_h2 = self.w6 * deriv_sigmoid(sum_output)    
+            d_h2__d_w3 = self.w3 * deriv_sigmoid(sum_h2)
+            d_L__d_w3 = d_L__d_ypred * d_ypred__d_h2 * d_h2__d_w3
+
+            d_h2__d_w4 = self.w4 * deriv_sigmoid(sum_h2)
+            d_L__d_w4 = d_L__d_ypred * d_ypred__d_h2 * d_h2__d_w4
+
+            
+            d_ypred__d_w5 = h1 * deriv_sigmoid(sum_output)
+            d_L__d_w5 = d_L__d_ypred * d_ypred__d_w5
+
+            d_ypred__d_w6 = h2 * deriv_sigmoid(sum_output)
+            d_L__d_w6 = d_L__d_ypred * d_ypred__d_w6
+
+
+
