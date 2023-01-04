@@ -14,14 +14,18 @@ class NeuralNetwork:
         self.b2 = np.random.normal()
         self.b3 = np.random.normal()
 
-    def sigmoid(self, x):
+    @staticmethod
+    def sigmoid(x):
         return 1 / (1 + np.exp(-x))
 
-    def deriv_sigmoid(self, x):
-        fx = self.sigmoid(x)
-        return fx * (1 - fx)
+    @staticmethod
+    def deriv_sigmoid(x):
+        #fx = sigmoid(x)
+        #return fx * (1 - fx)
+        return np.exp(-x)/((1 + np.exp(-x)) ** 2)
 
-    def mse(self, y_true, y_pred):
+    @staticmethod
+    def mse(y_true, y_pred):
         return ((y_true - y_pred) ** 2).mean()
 
     def feedforward(self, x):
