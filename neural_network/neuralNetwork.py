@@ -36,8 +36,7 @@ class NeuralNetwork:
         return self.output
 
     def sgd(self, y_true, y_pred, sum_h1, sum_h2, h1, h2, sum_output, learning_rate):
-
-
+        # In this function dy/dx is represented as d_y__d_x
         d_L__d_ypred = -2 * (y_true - y_pred)
 
         d_ypred__d_h1 = self.w5 * self.deriv_sigmoid(sum_output)
